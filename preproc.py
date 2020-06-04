@@ -5,6 +5,13 @@ import os
 from tqdm import tqdm
 
 
+# Paths to read from/write to
+img_path = '/vol/vipdata/data/chest_ct/LIDC-IDRI/LIDC-IDRI/'
+save_path = '/vol/vipdata/data/chest_ct/LIDC-IDRI/nodules_only'
+
+img_prefix = 'LIDC-IDRI-'
+
+
 def centre_to_slice(centre, pad):
     slices = []
     for i, c in enumerate(centre):
@@ -50,10 +57,6 @@ def slice_vol(vol, ann_slice):
 
     return np.pad(vol[tuple(new_slice)], pad_width=pad, constant_values=0)
 
-
-img_path = '/vol/vipdata/data/chest_ct/LIDC-IDRI/LIDC-IDRI/'
-img_prefix = 'LIDC-IDRI-'
-save_path = '/vol/vipdata/data/chest_ct/LIDC-IDRI/nodules_only'
 
 subject_list = os.listdir(img_path)
 subject_list = [s for s in subject_list if s.startswith(img_prefix)]
@@ -109,4 +112,3 @@ for pid in tqdm(subject_list):
                                                     scan.patient_id + '_im' + str(i_img) + '_nod' + str(i_nod) +
                                                     '_ann' + str(ann_i) + '.nii.gz'))
                     writer.Execute(img)
-
